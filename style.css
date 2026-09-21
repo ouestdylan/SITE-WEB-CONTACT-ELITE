@@ -79,6 +79,7 @@ header.site.is-scrolled .nav-inner{padding-top:11px; padding-bottom:11px;}
   text-decoration:none; color:var(--white);
 }
 .logo svg{flex:none;}
+.logo-mark{flex:none; border-radius:8px; display:block; object-fit:cover;}
 nav.primary-nav{display:flex; align-items:center; gap:26px;}
 nav.primary-nav a.nav-link{
   position:relative;
