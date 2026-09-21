@@ -1,7 +1,8 @@
 :root{
   --cream:#F2F3F5;
-  --sand:#AFB7C0;
-  --sand-deep:#99A3AC;
+  --sand:#E6E8EB;
+  --sand-deep:#CDD2D6;
+  --banner:#A1ABB5;
   --line:#8E99A3;
   --ink:#20242A;
   --ink-soft:#454C54;
@@ -61,7 +62,7 @@ a{color:inherit;}
 header.site{
   position:sticky; top:0; z-index:100;
   top:env(safe-area-inset-top,0px);
-  background:rgba(242,243,245,0.88);
+  background:rgba(161,171,181,0.94);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
@@ -210,7 +211,7 @@ form.lead-form{background:var(--cream); border:1px solid var(--line); border-rad
 .field{display:flex; flex-direction:column; gap:6px;}
 .field label{font-size:.86rem; font-weight:600; color:var(--ink-soft);}
 .field input, .field textarea{
-  background:var(--sand); border:1px solid var(--line); color:var(--ink);
+  background:#FFFFFF; border:1px solid var(--line); color:var(--ink);
   border-radius:var(--radius-s); padding:12px 14px; font-family:var(--font); font-size:.95rem; resize:vertical;
 }
 .field input:focus, .field textarea:focus{border-color:var(--blue);}
