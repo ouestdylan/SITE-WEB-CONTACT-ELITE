@@ -158,10 +158,21 @@
       status.textContent = "Envoi en cours...";
       status.className = "form-status";
 
-      fetch("https://api.contact-elite.fr/contact", {
+      /* Envoi du formulaire vers deux adresses email via FormSubmit
+         (service gratuit, sans backend à héberher). La première fois,
+         chaque adresse destinataire doit cliquer sur le lien de
+         confirmation qu'elle reçoit par email pour activer la réception. */
+      fetch("https://formsubmit.co/ajax/pro.stockinger@gmail.com", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: data.name, email: data.email, message: data.message })
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          message: data.message,
+          _subject: "Nouveau message — Contact Elite",
+          _cc: "rubensportouch@gmail.com",
+          _template: "table"
+        })
       })
         .then(function (res) {
           if (!res.ok) throw new Error("bad-response");
