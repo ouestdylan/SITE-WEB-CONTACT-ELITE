@@ -1,299 +1,179 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+(function () {
+  "use strict";
 
-<title>Contact Elite — Rendez-vous et dossiers qualifiés pour CGP</title>
-<meta name="description" content="Contact Elite fournit aux Conseillers en Gestion de Patrimoine des dossiers qualifiés (crédit lombard, assurance-vie luxembourgeoise, réduction d'impôt, produits structurés) livrés chaque semaine. Prenez rendez-vous.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.contact-elite.fr/">
+  /* ---------- 1. Forcer le HTTPS (filet de sécurité côté client) ---------- */
+  if (window.location.protocol === "http:" && window.location.hostname !== "localhost") {
+    window.location.replace("https:" + window.location.href.substring(window.location.protocol.length));
+  }
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Contact Elite">
-<meta property="og:title" content="Contact Elite — Rendez-vous et dossiers qualifiés pour CGP">
-<meta property="og:description" content="Des dossiers qualifiés pour Conseillers en Gestion de Patrimoine : crédit lombard, assurance-vie luxembourgeoise, réduction d'impôt et plus. Prenez rendez-vous en 2 minutes.">
-<meta property="og:url" content="https://www.contact-elite.fr/">
-<meta property="og:image" content="https://www.contact-elite.fr/assets/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="fr_FR">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Contact Elite — Rendez-vous et dossiers qualifiés pour CGP">
-<meta name="twitter:description" content="Des dossiers qualifiés pour CGP : crédit lombard, assurance-vie luxembourgeoise, réduction d'impôt et plus.">
-<meta name="twitter:image" content="https://www.contact-elite.fr/assets/og-image.png">
+  /* ---------- 2. Menu mobile ---------- */
+  var menuToggle = document.getElementById("menuToggle");
+  var primaryNav = document.getElementById("primaryNav");
+  function closeMenu() {
+    if (!primaryNav) return;
+    primaryNav.classList.remove("open");
+    if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
+  }
+  if (menuToggle && primaryNav) {
+    menuToggle.addEventListener("click", function () {
+      var open = primaryNav.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+    primaryNav.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", closeMenu);
+    });
+  }
 
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F3ECDF'/%3E%3Cpath d='M10 44 L24 26 L34 36 L54 14' stroke='%23540106' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='54' cy='14' r='4.5' fill='%23540106'/%3E%3C/svg%3E">
-<meta name="theme-color" content="#F3ECDF">
+  /* ---------- 3. Bandeau cookies (persiste sur toutes les pages) ---------- */
+  var CONSENT_KEY = "contact-elite-cookie-consent";
+  var banner = document.getElementById("cookieBanner");
+  var details = document.getElementById("cookieDetails");
+  var analyticsToggle = document.getElementById("cookieAnalyticsToggle");
+  var saveCustomBtn = document.getElementById("cookieSaveCustom");
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
+  function readConsent() {
+    try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); }
+    catch (e) { return null; }
+  }
+  function writeConsent(analytics) {
+    try {
+      localStorage.setItem(CONSENT_KEY, JSON.stringify({ analytics: !!analytics, date: new Date().toISOString() }));
+    } catch (e) { }
+    if (banner) banner.classList.remove("show");
+    if (analytics) initAnalytics();
+  }
 
-<a href="#main" class="skip-link">Aller au contenu</a>
+  if (banner) {
+    var existing = readConsent();
+    if (!existing) { banner.classList.add("show"); }
+    else if (existing.analytics) { initAnalytics(); }
 
-<header class="site">
-  <div class="nav-inner">
-    <a href="index.html" class="logo" aria-label="Contact Elite, retour à l'accueil">
-      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#E7DDC9"/><path d="M10 44 L24 26 L34 36 L54 14" stroke="#540106" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="54" cy="14" r="4.5" fill="#540106"/></svg>
-      Contact Elite
-    </a>
-    <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale">
-      <a href="index.html" class="nav-link" aria-current="page">Accueil</a>
-      <a href="index.html#categories" class="nav-link">Catégories de leads</a>
-      <a href="index.html#avis" class="nav-link">Avis clients</a>
-      <a href="index.html#contact" class="nav-link">Contact</a>
-      <a href="rgpd.html" class="nav-link">RGPD</a>
-      <a href="cgu.html" class="nav-link">CGU</a>
-    </nav>
-    <div class="nav-actions">
-      <a class="btn btn-primary btn-small" href="https://contact-elite.vercel.app?domaine=CGP" data-cta="nav">Prendre rendez-vous</a>
-      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Ouvrir le menu">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-  </div>
-</header>
+    var acceptAll = document.getElementById("cookieAcceptAll");
+    var refuseAll = document.getElementById("cookieRefuseAll");
+    var customize = document.getElementById("cookieCustomize");
+    var openPrefs = document.getElementById("openCookiePrefs");
 
-<main id="main">
+    if (acceptAll) acceptAll.addEventListener("click", function () { writeConsent(true); });
+    if (refuseAll) refuseAll.addEventListener("click", function () { writeConsent(false); });
+    if (customize) customize.addEventListener("click", function () {
+      details.classList.toggle("show");
+      saveCustomBtn.style.display = details.classList.contains("show") ? "inline-flex" : "none";
+    });
+    if (saveCustomBtn) saveCustomBtn.addEventListener("click", function () { writeConsent(analyticsToggle.checked); });
+    if (openPrefs) openPrefs.addEventListener("click", function () {
+      var c = readConsent();
+      if (c && analyticsToggle) analyticsToggle.checked = !!c.analytics;
+      banner.classList.add("show");
+      details.classList.add("show");
+      saveCustomBtn.style.display = "inline-flex";
+    });
+  }
 
-  <div class="wrap">
-    <section class="hero" aria-labelledby="hero-title">
-      <div>
-        <p class="eyebrow-line"><span class="dot" aria-hidden="true"></span> Pour Conseillers en Gestion de Patrimoine</p>
-        <h1 id="hero-title">Des rendez-vous avec des CGP qui cherchent vraiment des dossiers</h1>
-        <p class="lede">Contact Elite livre chaque semaine des dossiers qualifiés — crédit lombard, assurance-vie luxembourgeoise, réduction d'impôt, produits structurés — à des cabinets qui veulent des prospects prêts à échanger, pas des fichiers froids.</p>
-        <div class="hero-cta-row">
-          <a class="btn btn-primary" href="https://contact-elite.vercel.app?domaine=CGP" data-cta="hero">Prendre rendez-vous</a>
-          <span class="fineprint">15 minutes pour cadrer votre besoin, sans engagement.</span>
-        </div>
-        <div class="stat-row">
-          <div class="stat"><b>60</b><span>dossiers livrés par mois et par campagne</span></div>
-          <div class="stat"><b>≈31 %</b><span>taux de transformation moyen constaté</span></div>
-          <div class="stat"><b>6</b><span>thématiques patrimoniales couvertes</span></div>
-        </div>
-      </div>
+  /* ---------- 4. Analytics léger, activé uniquement après consentement -----
+     Une fois le site déployé sur son propre nom de domaine, remplacez
+     initAnalytics() par le script fourni par votre outil d'analyse
+     (Plausible, GA4...), chargé uniquement ici — donc uniquement après
+     consentement, sur chaque page qui inclut ce fichier. */
+  var analyticsReady = false;
+  function initAnalytics() {
+    if (analyticsReady) return;
+    analyticsReady = true;
+    try {
+      var n = parseInt(localStorage.getItem("contact-elite-pageviews") || "0", 10);
+      localStorage.setItem("contact-elite-pageviews", String(n + 1));
+    } catch (e) { }
+  }
+  document.querySelectorAll("[data-cta]").forEach(function (el) {
+    el.addEventListener("click", function () {
+      if (!analyticsReady) return;
+      try {
+        var clicks = parseInt(localStorage.getItem("contact-elite-cta-clicks") || "0", 10);
+        localStorage.setItem("contact-elite-cta-clicks", String(clicks + 1));
+      } catch (e) { }
+    });
+  });
 
-      <figure class="hero-visual">
-        <svg viewBox="0 0 560 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heroSvgTitle heroSvgDesc">
-          <title id="heroSvgTitle">Illustration : ligne de croissance sur un fond crème et bordeaux</title>
-          <desc id="heroSvgDesc">Une courbe ascendante représentant l'augmentation du nombre de rendez-vous qualifiés, sur un fond dégradé crème, avec des reliefs de montagnes stylisées en camaïeu bordeaux en bas de l'image.</desc>
-          <defs>
-            <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#FBF8F2"/>
-              <stop offset="60%" stop-color="#F3ECDF"/>
-              <stop offset="100%" stop-color="#E7DDC9"/>
-            </linearGradient>
-            <radialGradient id="glow" cx="0.72" cy="0.22" r="0.35">
-              <stop offset="0%" stop-color="#540106" stop-opacity="0.14"/>
-              <stop offset="100%" stop-color="#540106" stop-opacity="0"/>
-            </radialGradient>
-            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#7A1218"/>
-              <stop offset="100%" stop-color="#540106"/>
-            </linearGradient>
-          </defs>
-          <rect width="560" height="460" rx="28" fill="url(#skyGrad)"/>
-          <rect width="560" height="460" rx="28" fill="url(#glow)"/>
-          <circle cx="430" cy="150" r="34" fill="#540106" opacity="0.16"/>
-          <path d="M0 360 L90 300 L170 340 L250 260 L330 310 L410 230 L560 300 L560 460 L0 460 Z" fill="#DCCBAE" opacity="0.75"/>
-          <path d="M0 400 L120 340 L210 380 L300 300 L380 350 L480 280 L560 330 L560 460 L0 460 Z" fill="#C9B392" opacity="0.85"/>
-          <polyline points="40,330 130,300 200,340 260,250 330,285 400,190 470,220 530,120" fill="none" stroke="url(#lineGrad)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="530" cy="120" r="7" fill="#540106"/>
-        </svg>
-        <figcaption>Le volume de rendez-vous qualifiés augmente semaine après semaine</figcaption>
-      </figure>
-    </section>
-  </div>
+  /* ---------- 5. Formulaire de contact : validation + anti-spam ---------- */
+  var form = document.getElementById("contactForm");
+  if (form) {
+    var status = document.getElementById("formStatus");
+    var loadedAt = Date.now();
 
-  <div class="wrap"><hr class="divider"></div>
+    function setError(fieldId, msg) {
+      var field = document.getElementById(fieldId);
+      var err = field.querySelector(".error-msg");
+      if (msg) { field.classList.add("invalid"); err.textContent = msg; }
+      else { field.classList.remove("invalid"); err.textContent = ""; }
+    }
 
-  <section id="comment" aria-labelledby="comment-title">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="comment-title">Comment ça marche</h2>
-        <p>Trois étapes, du premier échange à la livraison des dossiers.</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <div class="num" aria-hidden="true">1</div>
-          <h3>Vous prenez rendez-vous</h3>
-          <p>Un créneau de 15 minutes pour présenter votre cabinet et vos objectifs, sans engagement de votre part.</p>
-        </div>
-        <div class="step">
-          <div class="num" aria-hidden="true">2</div>
-          <h3>Nous cadrons votre besoin</h3>
-          <p>Thématique patrimoniale, volume mensuel souhaité et zone géographique : nous ajustons la campagne avant tout achat.</p>
-        </div>
-        <div class="step">
-          <div class="num" aria-hidden="true">3</div>
-          <h3>Vous recevez vos dossiers</h3>
-          <p>Livraison échelonnée chaque semaine sur la durée de la campagne, avec un acompte à la commande et le solde à la livraison.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    function validate(data) {
+      var ok = true;
+      if (!data.name || data.name.trim().length < 2) {
+        setError("field-name", "Merci d'indiquer votre nom."); ok = false;
+      } else setError("field-name", "");
 
-  <section id="categories" aria-labelledby="cat-title">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="cat-title">Nos catégories de leads</h2>
-        <p>Chaque campagne cible une thématique patrimoniale précise pour éviter les dossiers hors sujet.</p>
-      </div>
-      <div class="cat-grid">
-        <div class="cat-card"><h3>Crédit lombard</h3><p>Profils détenant un patrimoine financier mobilisable, en recherche de liquidité sans céder leurs placements.</p></div>
-        <div class="cat-card"><h3>Assurance-vie luxembourgeoise</h3><p>Épargnants sensibles à la sécurité juridique et à la diversification offertes par le contrat luxembourgeois.</p></div>
-        <div class="cat-card"><h3>Réduction d'impôt</h3><p>Contribuables en recherche active de solutions de défiscalisation adaptées à leur tranche marginale.</p></div>
-        <div class="cat-card"><h3>Produits structurés</h3><p>Investisseurs souhaitant arbitrer une partie de leur épargne vers des supports à capital protégé ou conditionnel.</p></div>
-        <div class="cat-card"><h3>Trésorerie d'entreprise</h3><p>Dirigeants cherchant à faire fructifier la trésorerie excédentaire de leur société.</p></div>
-        <div class="cat-card"><h3>Placement immobilier</h3><p>Profils en recherche de SCPI, de dispositifs locatifs ou d'investissement pierre-papier.</p></div>
-      </div>
-    </div>
-  </section>
+      var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email || "");
+      if (!emailOk) {
+        setError("field-email", "Adresse email invalide."); ok = false;
+      } else setError("field-email", "");
 
-  <section aria-labelledby="why-title">
-    <div class="wrap">
-      <div class="section-head"><h2 id="why-title">Pourquoi les cabinets travaillent avec nous</h2></div>
-      <div class="why-grid">
-        <div class="why-item">
-          <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#540106" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div><h3>Des dossiers qualifiés à la source</h3><p>Chaque contact est issu d'une campagne publicitaire dédiée, ciblée sur une thématique patrimoniale précise.</p></div>
-        </div>
-        <div class="why-item">
-          <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#540106" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#540106" stroke-width="2.2"/></svg></div>
-          <div><h3>Une livraison régulière</h3><p>Les dossiers arrivent chaque semaine sur toute la durée de la campagne, pour un flux d'activité prévisible.</p></div>
-        </div>
-        <div class="why-item">
-          <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#540106" stroke-width="2.2"/><path d="M8 10h8M8 14h5" stroke="#540106" stroke-width="2.2" stroke-linecap="round"/></svg></div>
-          <div><h3>Une grille tarifaire transparente</h3><p>Un acompte à la commande, le solde à la livraison. Pas de paiement au succès déguisé ni de frais cachés.</p></div>
-        </div>
-        <div class="why-item">
-          <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.33-8.6C1.1 8.7 2.6 5.5 6 5c2-.3 3.7.8 4.3 2.3.2.4.7.4.9 0C11.8 5.8 13.5 4.7 15.5 5c3.4.5 4.9 3.7 3.3 7.4C19.5 16.65 12 21 12 21z" stroke="#540106" stroke-width="2"/></svg></div>
-          <div><h3>Un accompagnement humain</h3><p>Un interlocuteur dédié suit votre campagne du premier rendez-vous jusqu'à la dernière livraison.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
+      if (!data.message || data.message.trim().length < 10) {
+        setError("field-message", "Votre message doit contenir au moins 10 caractères."); ok = false;
+      } else setError("field-message", "");
 
-  <section id="avis" aria-labelledby="avis-title">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 id="avis-title">Ce qu'en disent les CGP</h2>
-        <p>Retours de cabinets ayant déjà travaillé avec Contact Elite.</p>
-      </div>
-      <div class="testi-grid">
-        <div class="testi-card"><p>« Super partenariat, ils font du très bon boulot ! »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">Y</div><div><b>Yoann</b><span>Conseiller en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Très bien. Professionnel. »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">D</div><div><b>Davis</b><span>Conseiller en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Bonne communication, j'ai eu affaire à Ruben, très sérieux ! »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">A</div><div><b>Aurélie</b><span>Conseillère en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Dylan a été très patient et c'est une belle offre avec de sérieuses demandes. »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">F</div><div><b>Francis L.</b><span>Conseiller en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Merci à vous, super équipe très présente. »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">R</div><div><b>Raphaëlle</b><span>Conseillère en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Bonne team, je recommande ! »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">L</div><div><b>Lise</b><span>Conseillère en gestion de patrimoine</span></div></div></div>
-      </div>
-    </div>
-  </section>
+      return ok;
+    }
 
-  <section class="tight">
-    <div class="wrap">
-      <div class="cta-band">
-        <h2>Prêt à recevoir vos premiers dossiers ?</h2>
-        <p>Réservez un créneau de 15 minutes pour cadrer votre thématique, votre volume mensuel et votre zone géographique.</p>
-        <a class="btn btn-primary" href="https://contact-elite.vercel.app?domaine=CGP" data-cta="band">Prendre rendez-vous</a>
-      </div>
-    </div>
-  </section>
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      status.textContent = "";
+      status.className = "form-status";
 
-  <section id="contact" aria-labelledby="contact-title">
-    <div class="wrap">
-      <div class="contact-block">
-        <div class="contact-copy">
-          <h2 id="contact-title">Une question avant de réserver ?</h2>
-          <p>Si vous préférez échanger par écrit avant de prendre rendez-vous, laissez-nous un message : nous répondons sous 24 à 48h ouvrées.</p>
-          <div class="contact-detail">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16v12H4z" stroke="#6B6255" stroke-width="1.8"/><path d="M4 7l8 6 8-6" stroke="#6B6255" stroke-width="1.8"/></svg>
-            <span>contact@contact-elite.fr</span>
-          </div>
-        </div>
+      var data = {
+        name: document.getElementById("cf-name").value,
+        email: document.getElementById("cf-email").value,
+        message: document.getElementById("cf-message").value,
+        website: document.getElementById("website").value
+      };
 
-        <form class="lead-form" id="contactForm" novalidate>
-          <div class="hp-field" aria-hidden="true">
-            <label for="website">Ne pas remplir ce champ</label>
-            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-          </div>
-          <div class="field" id="field-name">
-            <label for="cf-name">Nom</label>
-            <input type="text" id="cf-name" name="name" autocomplete="name" required>
-            <span class="error-msg" id="err-name"></span>
-          </div>
-          <div class="field" id="field-email">
-            <label for="cf-email">Email professionnel</label>
-            <input type="email" id="cf-email" name="email" autocomplete="email" required>
-            <span class="error-msg" id="err-email"></span>
-          </div>
-          <div class="field" id="field-message">
-            <label for="cf-message">Message</label>
-            <textarea id="cf-message" name="message" rows="4" required minlength="10"></textarea>
-            <span class="error-msg" id="err-message"></span>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Envoyer le message</button>
-          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-        </form>
-      </div>
-    </div>
-  </section>
+      if (data.website) {
+        status.textContent = "Merci, votre message a bien été envoyé.";
+        status.className = "form-status ok";
+        form.reset();
+        return;
+      }
+      if (Date.now() - loadedAt < 1500) {
+        status.textContent = "Merci de patienter un instant avant d'envoyer le formulaire.";
+        status.className = "form-status err";
+        return;
+      }
+      if (!validate(data)) {
+        status.textContent = "Merci de corriger les champs indiqués ci-dessus.";
+        status.className = "form-status err";
+        return;
+      }
 
-</main>
+      var submitBtn = form.querySelector("button[type=submit]");
+      submitBtn.disabled = true;
+      status.textContent = "Envoi en cours...";
+      status.className = "form-status";
 
-<footer class="site">
-  <div class="wrap">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <a href="index.html" class="logo">
-          <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#E7DDC9"/><path d="M10 44 L24 26 L34 36 L54 14" stroke="#540106" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="54" cy="14" r="4.5" fill="#540106"/></svg>
-          Contact Elite
-        </a>
-        <p>Dossiers qualifiés et rendez-vous commerciaux pour Conseillers en Gestion de Patrimoine.</p>
-      </div>
-      <div class="footer-cols">
-        <div class="footer-col">
-          <h4>Site</h4>
-          <a href="index.html">Accueil</a>
-          <a href="index.html#categories">Catégories de leads</a>
-          <a href="index.html#avis">Avis clients</a>
-          <a href="index.html#contact">Contact</a>
-        </div>
-        <div class="footer-col">
-          <h4>Légal</h4>
-          <a href="rgpd.html">Politique de confidentialité (RGPD)</a>
-          <a href="cgu.html">Conditions générales d'utilisation</a>
-          <button type="button" class="linklike" id="openCookiePrefs">Gérer les cookies</button>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Contact Elite. Tous droits réservés.</span>
-      <span>Site servi exclusivement en HTTPS</span>
-    </div>
-  </div>
-</footer>
-
-<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-labelledby="cookieTitle">
-  <p id="cookieTitle"><strong>Cookies</strong> — Nous utilisons des cookies strictement nécessaires au fonctionnement du site, et, avec votre accord, des cookies de mesure d'audience anonymisée. Voir notre <a href="rgpd.html">politique de confidentialité</a>.</p>
-  <div class="cookie-details" id="cookieDetails">
-    <div class="cookie-toggle"><span>Nécessaires (toujours actifs)</span><label class="switch"><input type="checkbox" checked disabled><span class="track"></span></label></div>
-    <div class="cookie-toggle"><span>Mesure d'audience</span><label class="switch"><input type="checkbox" id="cookieAnalyticsToggle"><span class="track"></span></label></div>
-  </div>
-  <div class="cookie-actions">
-    <button class="btn btn-primary btn-small" id="cookieAcceptAll">Tout accepter</button>
-    <button class="btn btn-ghost btn-small" id="cookieRefuseAll">Tout refuser</button>
-    <button class="btn btn-ghost btn-small" id="cookieCustomize">Personnaliser</button>
-    <button class="btn btn-ghost btn-small" id="cookieSaveCustom" style="display:none;">Enregistrer mes choix</button>
-  </div>
-</div>
-
-<script src="assets/script.js"></script>
-</body>
-</html>
+      fetch("https://api.contact-elite.fr/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: data.name, email: data.email, message: data.message })
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("bad-response");
+          status.textContent = "Merci, votre message a bien été envoyé. Nous revenons vers vous sous 24 à 48h.";
+          status.className = "form-status ok";
+          form.reset();
+        })
+        .catch(function () {
+          status.textContent = "L'envoi automatique n'est pas encore actif sur cet aperçu. Écrivez-nous directement à contact@contact-elite.fr.";
+          status.className = "form-status err";
+        })
+        .finally(function () { submitBtn.disabled = false; });
+    });
+  }
+})();
