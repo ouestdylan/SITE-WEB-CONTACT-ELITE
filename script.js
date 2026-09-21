@@ -24,12 +24,102 @@
     });
   }
 
+  var prefersReducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- 2bis. Bannière : ombre + tassement au défilement ---------- */
+  var header = document.querySelector("header.site");
+  if (header) {
+    var onScrollHeader = function () {
+      if (window.scrollY > 8) header.classList.add("is-scrolled");
+      else header.classList.remove("is-scrolled");
+    };
+    onScrollHeader();
+    window.addEventListener("scroll", onScrollHeader, { passive: true });
+  }
+
+  /* ---------- 2ter. Révélations au scroll ---------- */
+  var revealEls = document.querySelectorAll(".reveal, .reveal-stagger");
+  if (revealEls.length) {
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealEls.forEach(function (el) { el.classList.add("is-visible"); });
+    } else {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+      revealEls.forEach(function (el) { io.observe(el); });
+    }
+  }
+
+  /* ---------- 2quater. Compteurs animés (stat-row) ---------- */
+  var counters = document.querySelectorAll("[data-count-to]");
+  if (counters.length) {
+    var animateCounter = function (el) {
+      var target = parseFloat(el.getAttribute("data-count-to"));
+      var prefix = el.getAttribute("data-prefix") || "";
+      var suffix = el.getAttribute("data-suffix") || "";
+      if (prefersReducedMotion) { el.textContent = prefix + target + suffix; return; }
+      var start = null;
+      var duration = 1100;
+      function step(ts) {
+        if (!start) start = ts;
+        var progress = Math.min((ts - start) / duration, 1);
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var value = Math.round(target * eased);
+        el.textContent = prefix + value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = prefix + target + suffix;
+      }
+      requestAnimationFrame(step);
+    };
+    if ("IntersectionObserver" in window) {
+      var counterIo = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            counterIo.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+      counters.forEach(function (el) { counterIo.observe(el); });
+    } else {
+      counters.forEach(animateCounter);
+    }
+  }
+
+  /* ---------- 2quinquies. Barre CTA mobile sticky ---------- */
+  var mobileBar = document.getElementById("mobileCtaBar");
+  var heroEl = document.querySelector(".hero");
+  if (mobileBar && heroEl) {
+    var showBar = function () {
+      var pastHero = window.scrollY > heroEl.offsetTop + heroEl.offsetHeight;
+      mobileBar.classList.toggle("show", pastHero);
+    };
+    showBar();
+    window.addEventListener("scroll", showBar, { passive: true });
+  }
+
   /* ---------- 3. Bandeau cookies (persiste sur toutes les pages) ---------- */
   var CONSENT_KEY = "contact-elite-cookie-consent";
   var banner = document.getElementById("cookieBanner");
   var details = document.getElementById("cookieDetails");
   var analyticsToggle = document.getElementById("cookieAnalyticsToggle");
   var saveCustomBtn = document.getElementById("cookieSaveCustom");
+
+  function showBanner() {
+    if (!banner) return;
+    banner.classList.add("show");
+    requestAnimationFrame(function () { banner.classList.add("in"); });
+  }
+  function hideBanner() {
+    if (!banner) return;
+    banner.classList.remove("in");
+    setTimeout(function () { banner.classList.remove("show"); }, 300);
+  }
 
   function readConsent() {
     try { return JSON.parse(localStorage.getItem(CONSENT_KEY)); }
@@ -39,13 +129,13 @@
     try {
       localStorage.setItem(CONSENT_KEY, JSON.stringify({ analytics: !!analytics, date: new Date().toISOString() }));
     } catch (e) { }
-    if (banner) banner.classList.remove("show");
+    hideBanner();
     if (analytics) initAnalytics();
   }
 
   if (banner) {
     var existing = readConsent();
-    if (!existing) { banner.classList.add("show"); }
+    if (!existing) { showBanner(); }
     else if (existing.analytics) { initAnalytics(); }
 
     var acceptAll = document.getElementById("cookieAcceptAll");
@@ -63,7 +153,7 @@
     if (openPrefs) openPrefs.addEventListener("click", function () {
       var c = readConsent();
       if (c && analyticsToggle) analyticsToggle.checked = !!c.analytics;
-      banner.classList.add("show");
+      showBanner();
       details.classList.add("show");
       saveCustomBtn.style.display = "inline-flex";
     });
