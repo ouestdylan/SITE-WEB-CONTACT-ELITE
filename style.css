@@ -154,6 +154,13 @@ h1{
 .hero p.lede{color:var(--ink-soft); font-size:1.14rem; max-width:48ch; margin:0 0 32px;}
 .hero-cta-row{display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin-bottom:44px;}
 .hero-cta-row .fineprint{color:var(--ink-faint); font-size:.86rem; max-width:22ch;}
+.hero-doc-link{
+  display:inline-flex; align-items:center; gap:8px;
+  color:var(--bordeaux); font-weight:600; font-size:.92rem; text-decoration:none;
+  margin-bottom:38px; padding-bottom:2px; border-bottom:1px solid transparent;
+  transition:border-color .2s ease, gap .2s ease;
+}
+.hero-doc-link:hover{border-color:var(--bordeaux); gap:11px;}
 
 .stat-row{
   display:grid; grid-template-columns:repeat(3,1fr); gap:0;
@@ -258,6 +265,8 @@ h2{
 .contact-block{display:grid; grid-template-columns:1fr 1fr; gap:52px; align-items:start;}
 .contact-copy p{color:var(--ink-soft);}
 .contact-copy .contact-detail{display:flex; align-items:center; gap:10px; margin-top:18px; color:var(--ink-soft); font-size:.95rem;}
+.contact-copy .contact-detail a{text-decoration:underline; text-decoration-color:transparent; transition:text-decoration-color .2s ease, color .2s ease;}
+.contact-copy .contact-detail a:hover{color:var(--bordeaux); text-decoration-color:currentColor;}
 form.lead-form{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-m); padding:28px; display:flex; flex-direction:column; gap:16px;}
 .field{display:flex; flex-direction:column; gap:6px;}
 .field label{font-size:.86rem; font-weight:600; color:var(--ink-soft);}
