@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+<title>Page introuvable — Contact Elite</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F3ECDF'/%3E%3Cpath d='M10 44 L24 26 L34 36 L54 14' stroke='%23540106' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='54' cy='14' r='4.5' fill='%23540106'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#F3ECDF">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<a href="#main" class="skip-link">Aller au contenu</a>
+
+<header class="site">
+  <div class="nav-inner">
+    <a href="index.html" class="logo" aria-label="Contact Elite, retour à l'accueil">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#E7DDC9"/><path d="M10 44 L24 26 L34 36 L54 14" stroke="#540106" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="54" cy="14" r="4.5" fill="#540106"/></svg>
+      Contact Elite
+    </a>
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale">
+      <a href="index.html" class="nav-link">Accueil</a>
+      <a href="index.html#categories" class="nav-link">Catégories de leads</a>
+      <a href="index.html#avis" class="nav-link">Avis clients</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+      <a href="rgpd.html" class="nav-link">RGPD</a>
+      <a href="cgu.html" class="nav-link">CGU</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-primary btn-small" href="https://contact-elite.vercel.app?domaine=CGP" data-cta="nav">Prendre rendez-vous</a>
+      <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Ouvrir le menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap">
+    <div class="page-404">
+      <span class="code">404</span>
+      <h1 style="margin:0; font-size:1.5rem;">Cette page n'existe pas</h1>
+      <p>Le lien que vous avez suivi est peut-être obsolète, ou l'adresse a été mal saisie.</p>
+      <a class="btn btn-primary" href="index.html">Retour à l'accueil</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo">
+          <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#E7DDC9"/><path d="M10 44 L24 26 L34 36 L54 14" stroke="#540106" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="54" cy="14" r="4.5" fill="#540106"/></svg>
+          Contact Elite
+        </a>
+        <p>Dossiers qualifiés et rendez-vous commerciaux pour Conseillers en Gestion de Patrimoine.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Site</h4>
+          <a href="index.html">Accueil</a>
+          <a href="index.html#categories">Catégories de leads</a>
+          <a href="index.html#avis">Avis clients</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>Légal</h4>
+          <a href="rgpd.html">Politique de confidentialité (RGPD)</a>
+          <a href="cgu.html">Conditions générales d'utilisation</a>
+          <button type="button" class="linklike" id="openCookiePrefs">Gérer les cookies</button>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Contact Elite. Tous droits réservés.</span>
+      <span>Site servi exclusivement en HTTPS</span>
+    </div>
+  </div>
+</footer>
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-live="polite" aria-labelledby="cookieTitle">
+  <p id="cookieTitle"><strong>Cookies</strong> — Nous utilisons des cookies strictement nécessaires au fonctionnement du site, et, avec votre accord, des cookies de mesure d'audience anonymisée. Voir notre <a href="rgpd.html">politique de confidentialité</a>.</p>
+  <div class="cookie-details" id="cookieDetails">
+    <div class="cookie-toggle"><span>Nécessaires (toujours actifs)</span><label class="switch"><input type="checkbox" checked disabled><span class="track"></span></label></div>
+    <div class="cookie-toggle"><span>Mesure d'audience</span><label class="switch"><input type="checkbox" id="cookieAnalyticsToggle"><span class="track"></span></label></div>
+  </div>
+  <div class="cookie-actions">
+    <button class="btn btn-primary btn-small" id="cookieAcceptAll">Tout accepter</button>
+    <button class="btn btn-ghost btn-small" id="cookieRefuseAll">Tout refuser</button>
+    <button class="btn btn-ghost btn-small" id="cookieCustomize">Personnaliser</button>
+    <button class="btn btn-ghost btn-small" id="cookieSaveCustom" style="display:none;">Enregistrer mes choix</button>
+  </div>
+</div>
+
+<script src="assets/script.js"></script>
+</body>
+</html>
