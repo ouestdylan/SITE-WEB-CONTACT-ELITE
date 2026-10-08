@@ -32,6 +32,82 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+
+<!-- Styles des sections "Parcours d'un dossier" et "Tarifs" (autonomes, préfixe pv-) -->
+<style>
+  .pv{--pv-bdx:#540106;--pv-bdx2:#8A1A1F;--pv-ink:#1C1412;--pv-mute:#6E625C;--pv-line:#E5DBD0;--pv-card:#FFFCF8;--pv-soft:#F1E3DC;--pv-ok:#1F6B3A}
+  .pv-flow{display:flex;flex-direction:column;gap:56px;margin-top:8px}
+  .pv-stage{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .pv-stage:nth-child(even) .pv-copy{order:2}
+  .pv-kick{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--pv-bdx)}
+  .pv-copy h3{font-size:clamp(22px,2.4vw,28px);line-height:1.2;margin:10px 0 12px;color:var(--pv-ink)}
+  .pv-copy p{color:var(--pv-mute);line-height:1.6;margin:0 0 14px}
+  .pv-list{list-style:none;padding:0;margin:0}
+  .pv-list li{position:relative;padding:10px 0 10px 20px;border-bottom:1px solid var(--pv-line);font-size:15px;line-height:1.45;color:var(--pv-ink)}
+  .pv-list li:last-child{border-bottom:0}
+  .pv-list li::before{content:"";position:absolute;left:0;top:17px;width:7px;height:7px;border-radius:50%;background:var(--pv-bdx2)}
+  .pv-mock{position:relative;max-width:440px;width:100%;margin:0 auto}
+  .pv-card{background:var(--pv-card);border:1px solid var(--pv-line);border-radius:16px;box-shadow:0 18px 44px rgba(84,1,6,.10);overflow:hidden;color:var(--pv-ink)}
+  .pv-tag{position:absolute;z-index:2;display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--pv-line);border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:700;box-shadow:0 6px 18px rgba(84,1,6,.10);white-space:nowrap;color:var(--pv-ink)}
+  .pv-tag::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pv-bdx2)}
+  .pv-tag.tl{top:-14px;left:-12px}.pv-tag.br{bottom:-14px;right:-12px}
+  .pv-demo{display:inline-block;margin-bottom:24px;font-size:10.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--pv-bdx);border:1px dashed var(--pv-bdx);border-radius:6px;padding:4px 8px}
+  /* pub */
+  .pv-ad-head{display:flex;gap:12px;align-items:center;padding:14px 16px}
+  .pv-av{width:38px;height:38px;border-radius:50%;background:var(--pv-bdx);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+  .pv-ad-text{padding:0 16px 12px;font-size:14px;line-height:1.45}
+  .pv-ad-visual{height:170px;background:linear-gradient(135deg,#540106,#8A1A1F 55%,#C26A4A);color:#fff;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;font-size:22px;line-height:1.25;padding:20px}
+  .pv-ad-foot{background:#F3EDE6;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .pv-ad-btn{background:#E2D9D0;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:700;white-space:nowrap}
+  /* form */
+  .pv-prog{height:4px;background:var(--pv-line)}.pv-prog i{display:block;width:85%;height:100%;background:var(--pv-bdx)}
+  .pv-form{padding:20px}
+  .pv-q{margin-bottom:14px}
+  .pv-qn{font-size:10.5px;letter-spacing:.14em;color:var(--pv-bdx);font-weight:800}
+  .pv-qt{font-weight:700;font-size:14.5px;margin:4px 0 8px}
+  .pv-chip{display:inline-block;border:1px solid var(--pv-line);color:var(--pv-mute);border-radius:8px;padding:6px 10px;font-size:12.5px;margin:0 5px 6px 0}
+  .pv-chip.on{border:1.5px solid var(--pv-bdx);background:var(--pv-soft);color:var(--pv-ink)}
+  .pv-fields{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .pv-f{border:1px solid var(--pv-line);border-radius:10px;padding:7px 10px;font-size:13px}
+  .pv-f small{display:block;font-size:10px;color:var(--pv-mute)}
+  .pv-cta{margin-top:12px;background:var(--pv-bdx);color:#fff;border-radius:10px;padding:11px;text-align:center;font-weight:700;font-size:14.5px}
+  /* fiche */
+  .pv-lead-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--pv-line)}
+  .pv-lead-id{display:flex;gap:12px;align-items:center}
+  .pv-lead-id .pv-av{background:var(--pv-soft);color:var(--pv-bdx);font-size:13px}
+  .pv-lead-id b{display:block;font-size:15px}.pv-lead-id span{font-size:12px;color:var(--pv-mute)}
+  .pv-pill{background:var(--pv-soft);color:var(--pv-bdx);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:800;white-space:nowrap}
+  .pv-row{display:flex;justify-content:space-between;gap:12px;padding:12px 20px;border-bottom:1px solid var(--pv-line);font-size:14px}
+  .pv-row:last-child{border-bottom:0}
+  .pv-row b{color:var(--pv-ok);font-size:11.5px;letter-spacing:.1em}
+  .pv-fiche{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+  .pv-fiche div{background:var(--pv-card);border:1px solid var(--pv-line);border-radius:12px;padding:11px 14px;font-size:14px;color:var(--pv-ink)}
+  .pv-fiche small{display:block;color:var(--pv-mute);font-size:12.5px;margin-top:2px}
+  /* tarifs */
+  .pv-table-wrap{background:var(--pv-card);border:1px solid var(--pv-line);border-radius:16px;overflow-x:auto}
+  .pv-table{width:100%;border-collapse:collapse;font-size:15px;color:var(--pv-ink);min-width:640px}
+  .pv-table th{background:var(--pv-bdx);color:#F6EFE6;font-size:11.5px;letter-spacing:.14em;text-align:left;padding:13px 20px;font-weight:700}
+  .pv-table td{padding:11px 20px;border-top:1px solid var(--pv-line);vertical-align:middle}
+  .pv-table tbody.alt td{background:#F8F2EB}
+  .pv-table .cat{font-weight:700}.pv-table .seuil{color:var(--pv-mute)}
+  .pv-table .r{text-align:right}.pv-table .prix{font-weight:700}.pv-table .min{color:var(--pv-bdx);font-weight:800}
+  .pv-pay{margin-top:16px;display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--pv-soft);border:1px solid var(--pv-bdx);border-radius:10px;padding:10px 16px;font-size:14.5px;color:var(--pv-ink)}
+  .pv-pay b{color:var(--pv-bdx)}
+  .pv-note{font-size:13.5px;color:var(--pv-mute);margin-top:10px}
+  /* contacts directs */
+  .pv-phones{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+  .pv-phone{display:flex;justify-content:space-between;align-items:center;gap:12px;border:1px solid var(--pv-line);border-radius:12px;padding:12px 16px;text-decoration:none;color:var(--pv-ink);background:var(--pv-card)}
+  .pv-phone small{display:block;font-size:11px;letter-spacing:.14em;color:var(--pv-mute);font-weight:700}
+  .pv-phone b{font-size:18px;color:var(--pv-bdx)}
+  @media (max-width:860px){
+    .pv-stage{grid-template-columns:1fr;gap:28px}
+    .pv-stage:nth-child(even) .pv-copy{order:0}
+    .pv-mock{max-width:420px}
+    .pv-tag.tl{left:0}.pv-tag.br{right:0}
+    .pv-fields{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:420px){.pv-fiche,.pv-fields{grid-template-columns:1fr}.pv-ad-visual{font-size:19px}}
+</style>
 </head>
 <body>
 
@@ -45,8 +121,9 @@
     </a>
     <nav class="primary-nav" id="primaryNav" aria-label="Navigation principale">
       <a href="index.html" class="nav-link" aria-current="page">Accueil</a>
+      <a href="index.html#parcours" class="nav-link">Notre méthode</a>
       <a href="index.html#categories" class="nav-link">Catégories de leads</a>
-      <a href="index.html#avis" class="nav-link">Avis clients</a>
+      <a href="index.html#tarifs" class="nav-link">Tarifs</a>
       <a href="index.html#contact" class="nav-link">Contact</a>
       <a href="rgpd.html" class="nav-link">RGPD</a>
       <a href="cgu.html" class="nav-link">CGU</a>
@@ -66,8 +143,8 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero-blob" aria-hidden="true"></div>
       <p class="eyebrow-line reveal"><span class="dot" aria-hidden="true"></span> Pour Conseillers en Gestion de Patrimoine</p>
-      <h1 id="hero-title" class="reveal">Des rendez-vous avec des CGP qui cherchent vraiment des dossiers</h1>
-      <p class="lede reveal">Contact Elite livre chaque semaine des dossiers qualifiés — crédit lombard, assurance-vie luxembourgeoise, réduction d'impôt, produits structurés — à des cabinets qui veulent des prospects prêts à échanger, pas des fichiers froids.</p>
+      <h1 id="hero-title" class="reveal">Des rendez-vous patrimoniaux qualifiés, pas des fichiers</h1>
+      <p class="lede reveal">Contact Elite livre chaque semaine des dossiers qualifiés — crédit lombard, assurance-vie luxembourgeoise, réduction d'impôt, produits structurés, trésorerie d'entreprise, placement immobilier — à des cabinets qui veulent des prospects prêts à échanger, pas des fichiers froids.</p>
       <div class="hero-cta-row reveal">
         <a class="btn btn-primary" href="https://contact-elite.vercel.app?domaine=CGP" data-cta="hero">Prendre rendez-vous</a>
         <span class="fineprint">15 minutes pour cadrer votre besoin, sans engagement.</span>
@@ -77,7 +154,7 @@
         Télécharger notre plaquette commerciale (PDF)
       </a>
       <div class="stat-row reveal">
-        <div class="stat"><b data-count-to="60">0</b><span>dossiers livrés par mois et par campagne</span></div>
+        <div class="stat"><b data-count-to="50">0</b><span>dossiers minimum par commande, livrés sur un mois</span></div>
         <div class="stat"><b data-count-to="31" data-prefix="≈" data-suffix=" %">≈0 %</b><span>taux de transformation moyen constaté</span></div>
         <div class="stat"><b data-count-to="6">0</b><span>thématiques patrimoniales couvertes</span></div>
       </div>
@@ -101,13 +178,115 @@
         <div class="step">
           <div class="num" aria-hidden="true">2</div>
           <h3>Nous cadrons votre besoin</h3>
-          <p>Thématique patrimoniale, volume mensuel souhaité et zone géographique : nous ajustons la campagne avant tout achat.</p>
+          <p>Thématique patrimoniale, volume souhaité et zone géographique : nous ajustons la campagne avant tout achat.</p>
         </div>
         <div class="step">
           <div class="num" aria-hidden="true">3</div>
           <h3>Vous recevez vos dossiers</h3>
-          <p>Livraison échelonnée chaque semaine sur la durée de la campagne, avec un acompte à la commande et le solde à la livraison.</p>
+          <p>Paiement comptant à la commande, puis livraison échelonnée chaque semaine sur toute la durée de la campagne.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARCOURS D'UN DOSSIER -->
+  <section id="parcours" class="pv" aria-labelledby="parcours-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="parcours-title">Le parcours d'un dossier, de la publicité à votre agenda</h2>
+        <p>Voici concrètement comment un prospect est attiré, filtré puis transmis à votre cabinet.</p>
+      </div>
+
+      <div class="pv-flow">
+
+        <div class="pv-stage reveal">
+          <div class="pv-copy">
+            <span class="pv-kick">Étape 1 · Attirer</span>
+            <h3>Le bon message, au bon patrimoine</h3>
+            <p>Chaque thématique a ses propres campagnes : un dirigeant qui cherche à placer sa trésorerie ne voit pas la même publicité qu'un contribuable fortement imposé.</p>
+            <ul class="pv-list">
+              <li>Ciblage par profil : dirigeants, professions libérales, investisseurs</li>
+              <li>Ciblage géographique : ville, département ou région de votre choix</li>
+              <li>Créations renouvelées chaque semaine contre l'usure publicitaire</li>
+            </ul>
+          </div>
+          <div>
+            <div style="text-align:center"><span class="pv-demo">Exemple de création</span></div>
+            <div class="pv-mock">
+              <div class="pv-card" aria-label="Exemple de publicité">
+                <div class="pv-ad-head"><div class="pv-av" aria-hidden="true">CE</div><div><b style="font-size:14px">Cabinet partenaire</b><div style="font-size:11.5px;color:var(--pv-mute)">Sponsorisé</div></div></div>
+                <div class="pv-ad-text">Besoin de liquidités sans vendre votre portefeuille ? Découvrez si le crédit lombard est adapté à votre situation.</div>
+                <div class="pv-ad-visual">Mobilisez votre patrimoine,<br>gardez vos placements.</div>
+                <div class="pv-ad-foot"><div><div style="font-size:10.5px;color:var(--pv-mute)">ETUDE-PATRIMOINE.FR</div><b style="font-size:13px">Vérifiez votre éligibilité</b></div><span class="pv-ad-btn">En savoir plus</span></div>
+              </div>
+              <span class="pv-tag tl">Message par thématique</span>
+              <span class="pv-tag br">Renouvelée chaque semaine</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-stage reveal">
+          <div class="pv-copy">
+            <span class="pv-kick">Étape 2 · Filtrer</span>
+            <h3>Seuls les profils éligibles passent</h3>
+            <p>Le formulaire pose les questions qui comptent pour vous avant de demander les coordonnées. Un prospect qui ne correspond pas au produit ne devient jamais un dossier.</p>
+            <ul class="pv-list">
+              <li>Montant, <b>origine du patrimoine</b> (héritage, cession, vente…) et <b>délai d'investissement</b> connus avant l'appel</li>
+              <li><b>Ville et région</b> : seuls les prospects de votre zone vous sont livrés</li>
+              <li>Consentement recueilli pour être recontacté par un conseiller</li>
+            </ul>
+          </div>
+          <div>
+            <div style="text-align:center"><span class="pv-demo">Exemple de formulaire</span></div>
+            <div class="pv-mock">
+              <div class="pv-card" aria-label="Exemple de formulaire de qualification">
+                <div class="pv-prog"><i></i></div>
+                <div class="pv-form">
+                  <div class="pv-q"><div class="pv-qn">QUESTION 1/3</div><div class="pv-qt">Montant de votre patrimoine financier ?</div><span class="pv-chip">Moins de 150 k€</span><span class="pv-chip">150 – 500 k€</span><span class="pv-chip on">Plus de 500 k€</span></div>
+                  <div class="pv-q"><div class="pv-qn">QUESTION 2/3</div><div class="pv-qt">D'où provient ce patrimoine ?</div><span class="pv-chip on">Héritage / donation</span><span class="pv-chip">Cession d'entreprise</span><span class="pv-chip">Vente immobilière</span><span class="pv-chip">Épargne / revenus</span></div>
+                  <div class="pv-q"><div class="pv-qn">QUESTION 3/3</div><div class="pv-qt">Dans combien de temps souhaitez-vous investir ?</div><span class="pv-chip">Sous 1 mois</span><span class="pv-chip on">1 à 3 mois</span><span class="pv-chip">3 à 6 mois</span><span class="pv-chip">Plus tard</span></div>
+                  <div class="pv-fields"><div class="pv-f"><small>Nom complet</small>Prénom Nom</div><div class="pv-f"><small>Téléphone</small>06 00 00 00 00</div><div class="pv-f"><small>Code postal · ville</small>34300 Agde</div></div>
+                  <div class="pv-cta">Continuer</div>
+                </div>
+              </div>
+              <span class="pv-tag tl">Question disqualifiante</span>
+              <span class="pv-tag br">Hors cible : jamais transmis</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="pv-stage reveal">
+          <div class="pv-copy">
+            <span class="pv-kick">Étape 3 · Suivre &amp; livrer</span>
+            <h3>De la demande à la livraison, tout est tracé</h3>
+            <p>Chaque fiche est datée et indique le délai d'investissement, pour que votre équipe appelle en priorité les prospects les plus chauds.</p>
+            <div class="pv-fiche">
+              <div><b>Identité</b><small>Nom, téléphone, e-mail</small></div>
+              <div><b>Localisation</b><small>Ville, département, région</small></div>
+              <div><b>Thématique</b><small>Produit recherché</small></div>
+              <div><b>Origine du patrimoine</b><small>Héritage, cession, vente…</small></div>
+              <div><b>Montant</b><small>Patrimoine financier</small></div>
+              <div><b>Délai d'investissement</b><small>Sous 1 mois, 1–3 mois…</small></div>
+            </div>
+          </div>
+          <div>
+            <div style="text-align:center"><span class="pv-demo">Profil fictif · illustration</span></div>
+            <div class="pv-mock">
+              <div class="pv-card" aria-label="Exemple de suivi d'un dossier">
+                <div class="pv-lead-head">
+                  <div class="pv-lead-id"><div class="pv-av" aria-hidden="true">LD</div><div><b>Laurent D. — dirigeant de PME</b><span>Montpellier (34) · Trésorerie d'entreprise</span></div></div>
+                  <span class="pv-pill">Qualifié</span>
+                </div>
+                <div class="pv-row"><span>Formulaire complété · critères validés</span><b>OK</b></div>
+                <div class="pv-row"><span>Appel de vérification · besoin confirmé</span><b>JOINT</b></div>
+                <div class="pv-row"><span>Fiche complétée : montant, origine, délai</span><b>FAIT</b></div>
+                <div class="pv-row"><span>Transmis au cabinet · livraison de la semaine</span><b>LIVRÉ</b></div>
+              </div>
+              <span class="pv-tag br">Prêt à être appelé</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -129,13 +308,43 @@
     </div>
   </section>
 
+  <!-- TARIFS -->
+  <section id="tarifs" class="pv" aria-labelledby="tarifs-title">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2 id="tarifs-title">Un prix par dossier, selon le niveau de qualification</h2>
+        <p>Plus le seuil est exigeant, plus le prospect est solide. Tout est connu d'avance.</p>
+      </div>
+      <div class="pv-table-wrap reveal">
+        <table class="pv-table">
+          <thead><tr><th>Catégorie</th><th>Seuil de qualification</th><th class="r">Prix HT / dossier</th><th class="r">Minimum</th></tr></thead>
+          <tbody>
+            <tr><td class="cat" rowspan="3">Réduction / déduction d'impôts</td><td class="seuil">Minimum 20 000 € d'impôts</td><td class="r prix">155,00 €</td><td class="r min" rowspan="3">50 dossiers</td></tr>
+            <tr><td class="seuil">Minimum 30 000 € d'impôts</td><td class="r prix">180,00 €</td></tr>
+            <tr><td class="seuil">Minimum 40 000 € d'impôts</td><td class="r prix">205,00 €</td></tr>
+          </tbody>
+          <tbody class="alt"><tr><td class="cat">Produits structurés</td><td class="seuil">Minimum 40 000 € de cash disponible</td><td class="r prix">117,50 €</td><td class="r min">50 dossiers</td></tr></tbody>
+          <tbody><tr><td class="cat">Trésorerie d'entreprise</td><td class="seuil">Plus de 100 000 € minimum</td><td class="r prix">167,50 €</td><td class="r min">50 dossiers</td></tr></tbody>
+          <tbody class="alt">
+            <tr><td class="cat" rowspan="2">Placement immobilier</td><td class="seuil">Minimum 40 000 € de cash disponible</td><td class="r prix">152,50 €</td><td class="r min" rowspan="2">50 dossiers</td></tr>
+            <tr><td class="seuil">Minimum 30 000 € de cash disponible</td><td class="r prix">127,50 €</td></tr>
+          </tbody>
+          <tbody><tr><td class="cat">Crédit lombard</td><td class="seuil">Minimum 250 000 € de cash disponible</td><td class="r prix">205,00 €</td><td class="r min">50 dossiers</td></tr></tbody>
+          <tbody class="alt"><tr><td class="cat">Assurance-vie luxembourgeoise</td><td class="seuil">Minimum 250 000 € à investir</td><td class="r prix">300,00 €</td><td class="r min">30 dossiers</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pv-pay reveal"><b>Paiement comptant</b><span>— règlement de la totalité à la commande, avant le lancement de la campagne.</span></div>
+      <p class="pv-note reveal">Exemple indicatif : 50 dossiers crédit lombard × ≈ 31 % de transformation moyenne ≈ 15 dossiers convertis sur le mois. Projection non garantie, variable selon la thématique et la réactivité du cabinet.</p>
+    </div>
+  </section>
+
   <section aria-labelledby="why-title">
     <div class="wrap">
-      <div class="section-head reveal"><h2 id="why-title">Pourquoi les cabinets travaillent avec nous</h2></div>
+      <div class="section-head reveal"><h2 id="why-title">Pourquoi travailler avec nous</h2></div>
       <div class="why-grid reveal-stagger">
         <div class="why-item">
           <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 12l5 5L20 6" stroke="#540106" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div><h3>Des dossiers qualifiés à la source</h3><p>Chaque contact est issu d'une campagne publicitaire dédiée, ciblée sur une thématique patrimoniale précise.</p></div>
+          <div><h3>Des dossiers qualifiés à la source</h3><p>Chaque contact est issu d'une campagne publicitaire dédiée et passe un formulaire à questions disqualifiantes.</p></div>
         </div>
         <div class="why-item">
           <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2" stroke="#540106" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#540106" stroke-width="2.2"/></svg></div>
@@ -143,7 +352,7 @@
         </div>
         <div class="why-item">
           <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="#540106" stroke-width="2.2"/><path d="M8 10h8M8 14h5" stroke="#540106" stroke-width="2.2" stroke-linecap="round"/></svg></div>
-          <div><h3>Une grille tarifaire transparente</h3><p>Un acompte à la commande, le solde à la livraison. Pas de paiement au succès déguisé ni de frais cachés.</p></div>
+          <div><h3>Une grille tarifaire transparente</h3><p>Un prix fixe par dossier, réglé comptant à la commande. Pas de paiement au succès déguisé ni de frais cachés.</p></div>
         </div>
         <div class="why-item">
           <div class="icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.35-9.33-8.6C1.1 8.7 2.6 5.5 6 5c2-.3 3.7.8 4.3 2.3.2.4.7.4.9 0C11.8 5.8 13.5 4.7 15.5 5c3.4.5 4.9 3.7 3.3 7.4C19.5 16.65 12 21 12 21z" stroke="#540106" stroke-width="2"/></svg></div>
@@ -153,39 +362,26 @@
     </div>
   </section>
 
-  <section id="avis" aria-labelledby="avis-title">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <h2 id="avis-title">Ce qu'en disent les CGP</h2>
-        <p>Retours de cabinets ayant déjà travaillé avec Contact Elite.</p>
-      </div>
-      <div class="testi-grid reveal-stagger">
-        <div class="testi-card"><p>« Super partenariat, ils font du très bon boulot ! »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">Y</div><div><b>Yoann</b><span>Conseiller en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Très bien. Professionnel. »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">D</div><div><b>Davis</b><span>Conseiller en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Bonne communication, j'ai eu affaire à Ruben, très sérieux ! »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">A</div><div><b>Aurélie</b><span>Conseillère en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Dylan a été très patient et c'est une belle offre avec de sérieuses demandes. »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">F</div><div><b>Francis L.</b><span>Conseiller en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Merci à vous, super équipe très présente. »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">R</div><div><b>Raphaëlle</b><span>Conseillère en gestion de patrimoine</span></div></div></div>
-        <div class="testi-card"><p>« Bonne team, je recommande ! »</p><div class="testi-who"><div class="testi-avatar" aria-hidden="true">L</div><div><b>Lise</b><span>Conseillère en gestion de patrimoine</span></div></div></div>
-      </div>
-    </div>
-  </section>
-
   <section class="tight">
     <div class="wrap">
       <div class="cta-band reveal">
         <h2>Prêt à recevoir vos premiers dossiers ?</h2>
-        <p>Réservez un créneau de 15 minutes pour cadrer votre thématique, votre volume mensuel et votre zone géographique.</p>
+        <p>Réservez un créneau de 15 minutes pour cadrer votre thématique, votre volume et votre zone géographique.</p>
         <a class="btn btn-primary" href="https://contact-elite.vercel.app?domaine=CGP" data-cta="band">Prendre rendez-vous</a>
       </div>
     </div>
   </section>
 
-  <section id="contact" aria-labelledby="contact-title">
+  <section id="contact" class="pv" aria-labelledby="contact-title">
     <div class="wrap">
       <div class="contact-block reveal">
         <div class="contact-copy">
           <h2 id="contact-title">Une question avant de réserver ?</h2>
-          <p>Si vous préférez échanger par écrit avant de prendre rendez-vous, laissez-nous un message : nous répondons sous 24 à 48h ouvrées.</p>
+          <p>Appelez-nous directement, ou laissez-nous un message : nous répondons sous 24 à 48h ouvrées.</p>
+          <div class="pv-phones">
+            <a class="pv-phone" href="tel:+33678767089"><span><small>RUBEN SPORTOUCH</small><b>06 78 76 70 89</b></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2" stroke="#540106" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+            <a class="pv-phone" href="tel:+33667664319"><span><small>DYLAN STOCKINGER</small><b>06 67 66 43 19</b></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2" stroke="#540106" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+          </div>
           <div class="contact-detail">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16v12H4z" stroke="#52565C" stroke-width="1.8"/><path d="M4 7l8 6 8-6" stroke="#52565C" stroke-width="1.8"/></svg>
             <a class="inline-link" href="mailto:pro.stockinger@gmail.com,rubensportouch@gmail.com">contact@contact-elite.fr</a>
@@ -235,8 +431,9 @@
         <div class="footer-col">
           <h4>Site</h4>
           <a href="index.html">Accueil</a>
+          <a href="index.html#parcours">Notre méthode</a>
           <a href="index.html#categories">Catégories de leads</a>
-          <a href="index.html#avis">Avis clients</a>
+          <a href="index.html#tarifs">Tarifs</a>
           <a href="index.html#contact">Contact</a>
           <a href="plaquette-contact-elite.pdf" download>Plaquette commerciale (PDF)</a>
         </div>
